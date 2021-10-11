@@ -17,7 +17,7 @@ const options = {
 
 const strategy = new JwtStrategy(options, (payload, done) => {
 
-    User.findOne({ _id: payload.sub })
+    User.findOne({ id: payload.sub })
         .then((user) => {
             console.log(user[0][0])
             user = user[0][0];
