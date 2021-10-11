@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
+const mysql = require('mysql2');
 const router = require('express').Router();
-const User = mongoose.model('User');
+const User = require('../models/user');
 const passport = require('passport');
 const utils = require('../lib/utils');
 
