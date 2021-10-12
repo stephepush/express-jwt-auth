@@ -11,6 +11,11 @@ router.get('/protected', (req, res, next) => {
 
 // TODO
 router.post('/login', function(req, res, next) {
+
+});
+
+// TODO
+router.post('/register', function(req, res, next) {
     const saltHash = utils.genPassword(req.body.password);
 
     const salt = saltHash.salt;
@@ -24,14 +29,12 @@ router.post('/login', function(req, res, next) {
 
     newUser.save()
         .then((user) => {
-            res.json({ success: true, user: user });
+
+            const jwt = utils.issueJWT(user);
+
+            res.json({ success: true, user: user, token: jwt.token, expiresIn: jwt.expires });
         })
         .catch(err => next(err))
-});
-
-// TODO
-router.post('/register', function(req, res, next) {
-
 });
 
 module.exports = router;
