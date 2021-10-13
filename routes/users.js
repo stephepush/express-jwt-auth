@@ -11,7 +11,31 @@ router.get('/protected', (req, res, next) => {
 
 // TODO
 router.post('/login', function(req, res, next) {
+    User.findOne(req.body.username) //username entered in the form
+        .then((user) => {
+            console.log(user[0][0])
+            console.log(req.body.username)
+            if (user[0][0] === undefined) {
+                /*
+                    Line 18^: if mysql method returns undefined, show next line
+                    Don't know if best way to do this
+                */
+                res.status(401).json({ success: false, msg: "could not find user" });
+            }
+            console.log("validPassword: " + utils.validPassword(req.body.password, user[0][0].hash, user[0][0].salt))
+            const isValid = utils.validPassword(req.body.password, user[0][0].hash, user[0][0].salt)
 
+            if (isValid) {
+                const tokenObject = utils.issueJWT(user);
+
+                res.status(200).json({ success: true, user: user[0][0], token: tokenObject.token, expiresIn: tokenObject.expires })
+            } else {
+                res.status(401).json({ success: false, msg: "you entered the wrong password" });
+            }
+        })
+        .catch((err) => {
+            next(err);
+        })
 });
 
 // TODO
