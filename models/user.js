@@ -17,10 +17,15 @@ class User {
     };
 
     static findById(id) {
-        return pool.execute(
-            "SELECT user_id, username, hash, salt FROM users WHERE user_id = ?", [id]
-        )
-    };
+        return pool.query(
+                "SELECT user_id, username, hash, salt FROM users WHERE user_id = ?", [id]
+            )
+            /*
+                changes to pool.query just to get this to work
+                mysql2 has issue with new version of mysql where
+                prepared statments aren't working
+            */
+    }
 
     save() {
         /*         return pool.execute(
