@@ -1,5 +1,5 @@
 const mysql = require('mysql2/promise');
-const connection = require('../config/database').connection
+const pool = require('../config/database').pool
 
 class User {
     constructor(username, hash, salt) {
@@ -11,24 +11,24 @@ class User {
 
     static findOne(username) {
         //console.log(username + " from line 25 database.js")
-        return connection.execute(
+        return pool.execute(
             "SELECT * FROM users WHERE username = ?", [username]
         )
     };
 
     static findById(id) {
-        return connection.execute(
-            "SELECT user_id, username, hash, salt, admin FROM users WHERE user_id = ?", [id]
+        return pool.execute(
+            "SELECT user_id, username, hash, salt FROM users WHERE user_id = ?", [id]
         )
     };
 
     save() {
-        /*         return connection.execute(
+        /*         return pool.execute(
                     "INSERT INTO users (username, hash, salt) VALUES (?, ?, ?)", [this.username, this.hash, this.salt] //do i need to use 'this'?
                 ) */
         try {
-            return connection.execute(
-                "INSERT INTO users (username, hash, salt, admin) VALUES (?, ?, ?)", [this.username, this.hash, this.salt, this.admin] //do i need to use 'this'?,
+            return pool.execute(
+                "INSERT INTO users (username, hash, salt) VALUES (?, ?, ?)", [this.username, this.hash, this.salt] //do i need to use 'this'?,
             ).catch(e => {
                 console.log('error', e);
             });
