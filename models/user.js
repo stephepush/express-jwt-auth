@@ -11,7 +11,7 @@ class User {
 
     static findOne(username) {
         //console.log(username + " from line 25 database.js")
-        return pool.execute(
+        return pool.query(
             "SELECT * FROM users WHERE username = ?", [username]
         )
     };

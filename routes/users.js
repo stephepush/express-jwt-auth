@@ -4,12 +4,12 @@ const passport = require('passport');
 const utils = require('../lib/utils');
 const connection = require('../config/database').connection
 
-// TODO
+
 router.get('/protected', passport.authenticate('jwt', { session: false }), (req, res, next) => {
     res.status(200).json({ success: true, msg: 'You are authorized!' })
 });
 
-// TODO
+
 router.post('/login', function(req, res, next) {
     User.findOne(req.body.username) //username entered in the form
         .then((user) => {
