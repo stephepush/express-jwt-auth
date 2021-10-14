@@ -12,8 +12,13 @@ class User {
     static findOne(username) {
         //console.log(username + " from line 25 database.js")
         return pool.query(
-            "SELECT * FROM users WHERE username = ?", [username]
-        )
+                "SELECT * FROM users WHERE username = ?", [username]
+            )
+            /*
+                changes to pool.query just to get this to work
+                mysql2 has issue with new version of mysql where
+                prepared statments aren't working
+            */
     };
 
     static findById(id) {
