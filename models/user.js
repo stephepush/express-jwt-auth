@@ -3,16 +3,16 @@ const pool = require('../config/database').pool
 
 class User {
     constructor(username, hash, salt) {
-        //this.user_id = user_id;
+        this.user_id = user_id;
         this.username = username;
         this.hash = hash;
         this.salt = salt;
     }
 
-    static findOne(username) {
+    static findOne(user_id) {
         //console.log(username + " from line 25 database.js")
         return pool.query(
-                "SELECT * FROM users WHERE username = ?", [username]
+                "SELECT * FROM users WHERE username = ?", [user_id]
             )
             /*
                 changes to pool.query just to get this to work
